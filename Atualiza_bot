@@ -1,0 +1,31 @@
+from bs4 import BeautifulSoup 
+import requests
+
+
+print('Digite a UC: ')
+uc = str(input())
+senha = 'ie'+ uc
+data = {'UC':uc, 'Senha':senha}
+url = 'http://agencia.ienergia.com.br:8085/'
+Comandos = {
+        'atualiza'
+        'sair'
+        'baixar'
+        }
+
+while True :
+    print('Digite o comando: ')
+    com = str(input()).lower()
+    if(com == 'atualiza'):
+        page = requests.post(url, data)
+        soup = BeautifulSoup(page.text,'html.parser')
+        pg = soup.find_all(class_='summary')
+        print(pg)
+#        print('Ta dando boa \n')
+    else:
+        print('comando errado irmao \n')
+        break
+                
+    
+    
+    
