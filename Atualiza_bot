@@ -58,9 +58,9 @@ def add_hist(param):
 while True :
     if (tempo == 0):
         data_list,boleto = atualiza_pagina_inicial(url,data)
-        tempo = time.localtime().tm_hour
+        tempo_before = time.localtime().tm_min
         print('Dados Atualizados com Sucesso!',tempo)
-    elif (tempo >= tempo + 1):
+    elif (tempo_before >= tempo + 1):
         data_list,boleto = atualiza_pagina_inicial(url,data)
         print('Dados Atualizados com Sucesso!')
     else:
@@ -90,3 +90,4 @@ while True :
         else:
             print('comando errado irmao \n')
             break
+    tempo = time.localtime().tm_min
