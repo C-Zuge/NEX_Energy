@@ -32,7 +32,8 @@ def atualiza_pagina_inicial(link,param):
     data_list = add_hist(data)
     vencimento = data_list[3]
     valor_fatura = data_list[4]
-    open('Atualiza_bot.html','w+').write(str(vencimento))
+    open('Atualiza_bot.html','a+').write(str('<br />'))
+    open('Atualiza_bot.html','a+').write(str(vencimento))
     open('Atualiza_bot.html','a+').write(str('<br />'))
     open('Atualiza_bot.html','a+').write(str(valor_fatura))
     open('Atualiza_bot.html','a+').write(str('<br />'))
@@ -59,7 +60,7 @@ while True :
     if (tempo == 0):
         data_list,boleto = atualiza_pagina_inicial(url,data)
         tempo_before = time.localtime().tm_min
-        print('Dados Atualizados com Sucesso!',tempo)
+        print('Dados Atualizados com Sucesso!',tempo_before)
     elif (tempo_before >= tempo + 1):
         data_list,boleto = atualiza_pagina_inicial(url,data)
         print('Dados Atualizados com Sucesso!')
@@ -91,3 +92,8 @@ while True :
             print('comando errado irmao \n')
             break
     tempo = time.localtime().tm_min
+        
+                
+    
+    
+    
