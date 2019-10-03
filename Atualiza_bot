@@ -8,14 +8,15 @@ senha = 'ie'+ uc
 data = {'UC':uc, 'Senha':senha}
 url = 'http://agencia.ienergia.com.br:8085/'
 tempo = 0
+UC = {
+      }
 Comandos = {
         'atualiza',
         'sair',
         'baixar',
         'comandos',
-        'uc'
-        }
-Crawling_data = {
+#        'cadastra uc',
+#        'deleta uc'
         }
 
 def get_boleto_num(lista):
@@ -59,9 +60,9 @@ def add_hist(param):
 while True :
     if (tempo == 0):
         data_list,boleto = atualiza_pagina_inicial(url,data)
-        tempo_before = time.localtime().tm_min
-        print('Dados Atualizados com Sucesso!',tempo_before)
-    elif (tempo_before >= tempo + 1):
+        tempo = time.localtime().tm_min
+        print('Dados Atualizados com Sucesso!',tempo)
+    elif (tempo >= tempo + 1):
         data_list,boleto = atualiza_pagina_inicial(url,data)
         print('Dados Atualizados com Sucesso!')
     else:
@@ -82,18 +83,20 @@ while True :
                 data = {'UC':uc, 'Senha':senha}
                 print('Atualizado!')
             else:
-                pass
-                url_boleto = 'http://agencia.ienergia.com.br:8085/Faturas/EmiteFatura/'+boleto
+                url_boleto = 'http://agencia.ienergia.com.br:8085/?ReturnUrl=%2FFaturas%2FEmiteFatura%2F'+boleto
                 page_boleto = requests.post(url_boleto,data)
                 soup_boleto = BeautifulSoup(page_boleto.text,'html.parser')
-                open('boleto.html','w').write(str(soup_boleto))
+#                print(soup_boleto)
+#                open('boleto.pdf','w').write(str(soup_boleto))
     
         else:
             print('comando errado irmao \n')
             break
-    tempo = time.localtime().tm_min
         
                 
-    
-    
-    
+# COISAS a FAZER 
+# ver como baixar pdf via pyhton
+# 'cadastra uc',
+# 'deleta uc'
+# data da proximo leitura 
+#  mes corrente da ftura    
