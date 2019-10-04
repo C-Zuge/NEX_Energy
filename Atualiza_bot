@@ -41,14 +41,14 @@ def baixa_boleto(url_boleto,data):
     page_boleto = requests.post(url_boleto,data)
     filename = 'boleto UC_'+str(uc)+'.pdf'
     with open(filename, "wb") as code:
-        code.write(page_boleto.content)
+        code.write(page_boleto.content) # Gera pdf com nome 'filename' e conteudo de 'page_boleto'
         
 def atualiza_pagina_inicial(link,param):
 #    Atualiza a pagina da UC caso nao tenha dado problema de requisição e gera um html com os dados obtidos
 #    função responsavel pelo scraping de todo dado necessario da pagina inicial do Iguaçu Energia
     page = requests.post(link, param)
     soup = BeautifulSoup(page.text,'html.parser')
-    pg = soup.find_all(class_='content differ')
+    pg = soup.find_all(class_='content differ') # class_='content differ' é classe dentro de td do html bruto
     data,boleto = get_data(pg)
     data_list = add_hist(data)
     vencimento = data_list[3]
@@ -78,7 +78,6 @@ def add_hist(param):
     for i in range(len(param)):
         data_list += str(param[i]).split('<')
     return data_list
-    
 #Cadastra(uc)
 while True :
     if (tempo == 0):
@@ -111,7 +110,7 @@ while True :
                 baixa_boleto(url_boleto,data)
     
         else:
-            print('comando errado irmao \n')
+            print('Comando errado irmao \n')
             break
 
 # COISAS a FAZER 
