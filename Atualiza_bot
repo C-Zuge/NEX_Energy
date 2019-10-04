@@ -15,17 +15,37 @@ Comandos = {
         'sair',
         'baixar',
         'comandos',
-#        'cadastra uc',
+        'cadastra uc',
 #        'deleta uc'
         }
 
+#def Cadastra(uc):
+#    global UC
+#    tam = len(UC)+1 
+#    if not uc in UC:
+#        UC.keys = str(tam)
+#        UC[str(tam)] = str(uc)
+#        print('UC criada com sucesso',UC)
+#    else:
+#        print('Essa UC ja existe')
+        
 def get_boleto_num(lista):
+#    Esta função serve para tirar o Numero de identificação do boleto que esta no html fonte
     boleto = str(lista[3]).split('=')
     boleto = str(boleto[2]).split(' ')
     boleto = str(boleto[0]).split('"')
     return boleto[1]
 
+def baixa_boleto(url_boleto,data):
+#   Esta função serve somente para baixar o pdf da uc fornecida pelo usuario por meio de requests
+    page_boleto = requests.post(url_boleto,data)
+    filename = 'boleto UC_'+str(uc)+'.pdf'
+    with open(filename, "wb") as code:
+        code.write(page_boleto.content)
+        
 def atualiza_pagina_inicial(link,param):
+#    Atualiza a pagina da UC caso nao tenha dado problema de requisição e gera um html com os dados obtidos
+#    função responsavel pelo scraping de todo dado necessario da pagina inicial do Iguaçu Energia
     page = requests.post(link, param)
     soup = BeautifulSoup(page.text,'html.parser')
     pg = soup.find_all(class_='content differ')
@@ -33,6 +53,7 @@ def atualiza_pagina_inicial(link,param):
     data_list = add_hist(data)
     vencimento = data_list[3]
     valor_fatura = data_list[4]
+#   processo de gerar html com os dados obtidos do scraping || a+ -> append 
     open('Atualiza_bot.html','a+').write(str('<br />'))
     open('Atualiza_bot.html','a+').write(str(vencimento))
     open('Atualiza_bot.html','a+').write(str('<br />'))
@@ -42,6 +63,7 @@ def atualiza_pagina_inicial(link,param):
 
 
 def get_data(html):
+#   Função responsavel por afunilar o html bruto em somente a parte do html que possui os dados que nos interessam
     html_data = []
     for td in html:
         tds = td.find_all('td')
@@ -51,12 +73,13 @@ def get_data(html):
     return html_data,boleto
 
 def add_hist(param):
+#   Função que gera uma lista de todos os valores importantes do html afunilado para extração posterior
     data_list = []  
     for i in range(len(param)):
         data_list += str(param[i]).split('<')
     return data_list
     
-
+#Cadastra(uc)
 while True :
     if (tempo == 0):
         data_list,boleto = atualiza_pagina_inicial(url,data)
@@ -77,26 +100,22 @@ while True :
                 print('Dados Atualizados com Sucesso!')
             elif(com=='comandos'):
                 print(Comandos)
-            elif(com=='uc'):
-                print('Digite a UC atualizada: ')
+            elif(com=='cadastra uc'):
+                print('Digite a nova UC: ')
                 uc = input()
+#                Cadastra(uc)
                 data = {'UC':uc, 'Senha':senha}
                 print('Atualizado!')
             else:
                 url_boleto = 'http://agencia.ienergia.com.br:8085/?ReturnUrl=%2FFaturas%2FEmiteFatura%2F'+boleto
-                page_boleto = requests.post(url_boleto,data)
-                soup_boleto = BeautifulSoup(page_boleto.text,'html.parser')
-#                print(soup_boleto)
-#                open('boleto.pdf','w').write(str(soup_boleto))
+                baixa_boleto(url_boleto,data)
     
         else:
             print('comando errado irmao \n')
             break
-        
-                
+
 # COISAS a FAZER 
-# ver como baixar pdf via pyhton
-# 'cadastra uc',
-# 'deleta uc'
 # data da proximo leitura 
-#  mes corrente da ftura    
+#  mes corrente da fatura    
+# Comentar o programa 
+            
