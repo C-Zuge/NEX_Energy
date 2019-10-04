@@ -114,7 +114,7 @@ while True :
             break
 
 # COISAS a FAZER 
-# data da proximo leitura 
-#  mes corrente da fatura    
-# Comentar o programa 
+# Data da proximo leitura 
+# Mês corrente da fatura  
+# Gerar arquivo xls a partir dos dados obtidos em configuração {UC, Mes corrente, Vencimento, Valor da Fatura}
             
